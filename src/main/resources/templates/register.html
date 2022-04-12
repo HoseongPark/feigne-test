@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+</head>
+<body>
+<div>
+  <h3>Form에서 사용</h3>
+  <p>책 정보 입력</p>
+  <form method="post" action="/test" enctype="multipart/form-data">
+    <table border=1>
+      <tr>
+        <td>책제목</td>
+        <td>
+          <input type="text" placeholder="책 제목을 입력하세요" name="title">
+        </td>
+      </tr>
+      <tr>
+        <td>이미지</td>
+        <td>
+          <input type="file" name="image">
+        </td>
+      </tr>
+    </table>
+    <button type="submit">입력</button>
+  </form>
+</div>
+</body>
+</html>
