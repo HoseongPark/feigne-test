@@ -1,5 +1,6 @@
 package com.example.feignetest;
 
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,25 +15,31 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final Client client;
+    private final RestTemplateRepository restTemplateRepository;
 
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
 
-    @PostMapping(value = "/register", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/todo", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
-    public ResponseEntity<Book> register(@RequestPart("book") Book book, @RequestPart("image") MultipartFile image) {
+    public ResponseEntity<Book> register(@RequestPart("book") Book book, @RequestPart("media") MultipartFile media) {
         return ResponseEntity.ok().body(book);
     }
 
-    @PostMapping("/test")
-    public String test(BookRegister bookRegister) {
-        MultipartFile image = bookRegister.getImage();
-        Book book = Book.builder().title(bookRegister.getTitle()).build();
+//    @PostMapping(value = "/todo", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+//    @ResponseBody
+//    public ResponseEntity<Book> register(@RequestPart("book") Book book, @RequestPart("media") TestBook testBook) {
+//        return ResponseEntity.ok().body(book);
+//    }
 
-        client.register(book, image);
+    @PostMapping("/test")
+    public String test(BookRegister bookRegister) throws IOException {
+        MultipartFile image = bookRegister.getImage();
+        Book book = Book.builder().title(bookRegister.getTitle()).author(bookRegister.getAuthor()).build();
+
+        restTemplateRepository.register(book, image);
 
         return "success";
     }
